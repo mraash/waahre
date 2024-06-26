@@ -1,0 +1,36 @@
+# sundry
+/.idea/
+/.ignore/
+/.vscode/
+/Makefile
+
+# symfony/framework-bundle
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+
+# phpunit/phpunit
+/.coverage/
+/phpunit.xml
+.phpunit.result.cache
+
+# symfony/asset-mapper
+/public/assets/
+/assets/vendor/
+
+# docker
+/docker/
+/docker-compose.yaml
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
