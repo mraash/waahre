@@ -1,4 +1,5 @@
 twig:
+    paths: ["%kernel.project_dir%/templates/html"]
     file_name_pattern: '*.twig'
 
 when@test:
