@@ -18,18 +18,26 @@ class WarehouseHtmlRequest implements WarehouseRawRequestInterface
     {
         // TODO: refactor shitcode here
 
-        $hasTable = preg_match("/<table[^>]*>.*?<\/table>/s", $html, $matches);
-
-        if (!$hasTable) {
-            throw new \Exception(':(');
-        }
-
-        $htmlTable = $matches[0];
-
         $dom = new DOMDocument();
-        $dom->loadHTML($htmlTable);
+        @$dom->loadHTML($html);
 
-        $rows = $dom->getElementsByTagName('tr');
+        /** @var DOMElement */
+        $table = $dom->getElementsByTagName('table')->item(1);
+
+        $rows = $table->getElementsByTagName('tr');
+
+        // $hasTable = preg_match("/\<table\>/", $html, $matches);
+
+        // if (!$hasTable) {
+        //     throw new \Exception(':(');
+        // }
+
+        // $htmlTable = $matches[0];
+
+        // $dom = new DOMDocument();
+        // $dom->loadHTML($htmlTable);
+
+        // $rows = $dom->getElementsByTagName('tr');
 
         foreach ($rows as $cellNode) {
             /** @var DOMElement $cellNode */
