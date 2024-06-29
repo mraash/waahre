@@ -13,21 +13,24 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class IndexController extends AbstractController
 {
+    private const FORM_WAREHOUSE_REQUEST = 'warehouse-request-html';
+
     #[Route('/', name: 'page.index')]
     public function index(): Response
     {
         return $this->render('page/index/index.twig', [
             'controller_name' => 'IndexController',
+            'form' => [
+                'file' => self::FORM_WAREHOUSE_REQUEST,
+            ],
         ]);
     }
 
     #[Route('/convert', name: 'action.convert', methods: ['POST'])]
     public function convert(Request $request): Response
     {
-        // $file = '/var/www/html/.ignore/Piep-pr-03-06.html';
-
         /** @var UploadedFile */
-        $file = $request->files->get('warehose-request');
+        $file = $request->files->get(self::FORM_WAREHOUSE_REQUEST);
 
         $content = file_get_contents($file->getPathname());
 
@@ -37,8 +40,6 @@ class IndexController extends AbstractController
         $warehouseExelRequest = (new WarehouseExelRequestConverter())->encode($warehouseRequest);
 
         $result = $warehouseExelRequest->getRawData();
-
-        // $result->save('/var/www/html/.ignore/test.xls');
 
         $filename = 'norakstit-' . time() . '.xlsx';
 

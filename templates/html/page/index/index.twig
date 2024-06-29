@@ -6,7 +6,7 @@
 
 {% block body %}
     <form action="{{ path('action.convert') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="warehose-request"><br><br>
+        <input type="file" name="{{ form.file }}"><br><br>
         <button type="submit">Convert</button>
     </form>
 {% endblock body %}
