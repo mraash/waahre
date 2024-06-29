@@ -1,10 +1,10 @@
-# sundry
+### sundry
 /.idea/
 /.ignore/
 /.vscode/
 /Makefile
 
-# symfony/framework-bundle
+### symfony/framework-bundle
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -13,16 +13,16 @@
 /var/
 /vendor/
 
-# phpunit/phpunit
+### phpunit/phpunit
 /.coverage/
 /phpunit.xml
 .phpunit.result.cache
 
-# symfony/asset-mapper
+### symfony/asset-mapper
 /public/assets/
 /assets/vendor/
 
-# docker
+### docker
 /docker-compose.override.yml
 
 ### phpstan/phpstan
