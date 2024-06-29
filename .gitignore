@@ -1,33 +1,26 @@
-### sundry
-/.idea/
+# --- sundry
 /.ignore/
+/.idea/
 /.vscode/
+/vendor/
 /Makefile
 
-### symfony/framework-bundle
+# --- symfony
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
 /var/
-/vendor/
-
-### phpunit/phpunit
-/.coverage/
-/phpunit.xml
-.phpunit.result.cache
-
-### symfony/asset-mapper
+/public/bundles/
 /public/assets/
 /assets/vendor/
 
-### docker
+# --- docker
 /docker-compose.override.yml
 
-### phpstan/phpstan
-phpstan.neon
+# --- phpunit
+/.coverage/
+.phpunit.result.cache
 
-### squizlabs/php_codesniffer
+# --- phpcs
 /.phpcs-cache
-/phpcs.xml
