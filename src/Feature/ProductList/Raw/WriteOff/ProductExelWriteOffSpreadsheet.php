@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\ProductList\Raw\Exel;
+namespace App\Feature\ProductList\Raw\WriteOff;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class WarehouseRequestSheet
+class ProductExelWriteOffSpreadsheet
 {
     public function __construct(
         private readonly Spreadsheet $spreadsheet,

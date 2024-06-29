@@ -2,9 +2,8 @@
 
 namespace App\Http\Controller;
 
-use App\Feature\ProductList\Raw\Exel\WarehouseExelRequestConverter;
-use App\Feature\ProductList\Raw\Html\WarehouseHtmlRequest;
-use App\Feature\ProductList\Raw\Html\WarehouseRequestHtmlConverter;
+use App\Feature\ProductList\Converter\WarehouseRequestToWriteOffConverter;
+use App\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +14,15 @@ class IndexController extends AbstractController
 {
     private const FORM_WAREHOUSE_REQUEST = 'warehouse-request-html';
 
+    public function __construct(
+        private WarehouseRequestToWriteOffConverter $converter,
+    ) {
+    }
+
     #[Route('/', name: 'page.index')]
     public function index(): Response
     {
         return $this->render('page/index/index.twig', [
-            'controller_name' => 'IndexController',
             'form' => [
                 'file' => self::FORM_WAREHOUSE_REQUEST,
             ],
@@ -34,12 +37,7 @@ class IndexController extends AbstractController
 
         $content = file_get_contents($file->getPathname());
 
-        $warehouseHtmlRequest = new WarehouseHtmlRequest($content);
-        $warehouseRequest = (new WarehouseRequestHtmlConverter())->decode($warehouseHtmlRequest);
-
-        $warehouseExelRequest = (new WarehouseExelRequestConverter())->encode($warehouseRequest);
-
-        $result = $warehouseExelRequest->getRawData();
+        $result = $this->converter->convertFully($content);
 
         $filename = 'norakstit-' . time() . '.xlsx';
 
