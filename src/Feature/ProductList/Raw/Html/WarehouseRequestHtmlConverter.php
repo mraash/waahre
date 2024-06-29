@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\WarehouseRequest\Raw\Html;
+namespace App\Feature\ProductList\Raw\Html;
 
-use App\Feature\WarehouseRequest\Clean\WarehouseRequest;
-use App\Feature\WarehouseRequest\Raw\WarehouseRawRequestConverterInterface;
-use App\Feature\WarehouseRequest\Raw\WarehouseRawRequestInterface;
+use App\Feature\ProductList\Clean\WarehouseRequest;
+use App\Feature\ProductList\Raw\WarehouseRawRequestConverterInterface;
+use App\Feature\ProductList\Raw\WarehouseRawRequestInterface;
 
 class WarehouseRequestHtmlConverter implements WarehouseRawRequestConverterInterface
 {

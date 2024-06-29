@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\WarehouseRequest\Raw\Exel;
+namespace App\Feature\ProductList\Raw\Exel;
 
-use App\Feature\WarehouseRequest\Clean\ProductRow;
-use App\Feature\WarehouseRequest\Clean\WarehouseRequest;
-use App\Feature\WarehouseRequest\Raw\WarehouseRawRequestInterface;
+use App\Feature\ProductList\Clean\ProductRow;
+use App\Feature\ProductList\Clean\WarehouseRequest;
+use App\Feature\ProductList\Raw\WarehouseRawRequestInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class WarehouseExelRequest implements WarehouseRawRequestInterface

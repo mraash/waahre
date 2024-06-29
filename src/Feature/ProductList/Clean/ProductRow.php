@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\WarehouseRequest\Clean;
+namespace App\Feature\ProductList\Clean;
 
 use App\Data\Entity\Product;
 

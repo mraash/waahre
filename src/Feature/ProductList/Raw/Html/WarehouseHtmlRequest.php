@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\WarehouseRequest\Raw\Html;
+namespace App\Feature\ProductList\Raw\Html;
 
-use App\Feature\WarehouseRequest\Raw\WarehouseRawRequestInterface;
+use App\Feature\ProductList\Raw\WarehouseRawRequestInterface;
 use DOMDocument;
 use DOMElement;
-use App\Feature\WarehouseRequest\Clean\ProductRow;
+use App\Feature\ProductList\Clean\ProductRow;
 
 class WarehouseHtmlRequest implements WarehouseRawRequestInterface
 {
