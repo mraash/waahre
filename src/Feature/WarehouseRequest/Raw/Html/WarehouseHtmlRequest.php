@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\WarehouseRequest\Raw\Html;
+namespace App\Feature\WarehouseRequest\Raw\Html;
 
-use App\WarehouseRequest\Raw\WarehouseRawRequestInterface;
+use App\Feature\WarehouseRequest\Raw\WarehouseRawRequestInterface;
 use DOMDocument;
 use DOMElement;
-use App\WarehouseRequest\Clean\ProductRow;
+use App\Feature\WarehouseRequest\Clean\ProductRow;
 
 class WarehouseHtmlRequest implements WarehouseRawRequestInterface
 {
@@ -52,7 +52,7 @@ class WarehouseHtmlRequest implements WarehouseRawRequestInterface
 
             $code = trim($cells->item(0)->textContent);
             $name = trim($cells->item(1)->textContent);
-            $quantity = (float) trim($cells->item(8)->textContent);
+            $quantity = (float) str_replace(',', '.', trim($cells->item(8)->textContent));
 
             $this->productList[] = ProductRow::fromPrimitives($code, $name, $quantity);
         }

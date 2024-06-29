@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\WarehouseRequest\Clean;
+namespace App\Feature\WarehouseRequest\Clean;
 
-use App\Entity\Product;
+use App\Data\Entity\Product;
 
 class ProductRow
 {

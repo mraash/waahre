@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\WarehouseRequest\Raw\Exel;
+namespace App\Feature\WarehouseRequest\Raw\Exel;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;

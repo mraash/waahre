@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\WarehouseRequest\Clean;
+namespace App\Feature\WarehouseRequest\Clean;
 
 class WarehouseRequest
 {

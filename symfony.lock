@@ -9,8 +9,8 @@
         },
         "files": [
             "./config/packages/doctrine.yaml",
-            "./src/Entity/.gitignore",
-            "./src/Repository/.gitignore"
+            "./src/Data/Entity/.gitignore",
+            "./src/Data/Repository/.gitignore"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -130,7 +130,7 @@
             "./config/routes/framework.yaml",
             "./config/services.yaml",
             "./public/index.php",
-            "./src/Controller/.gitignore",
+            "./src/Http/Controller/.gitignore",
             "./src/Kernel.php"
         ]
     },

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\WarehouseRequest\Raw;
+namespace App\Feature\WarehouseRequest\Raw;
 
-use App\WarehouseRequest\Clean\WarehouseRequest;
+use App\Feature\WarehouseRequest\Clean\WarehouseRequest;
 
 interface WarehouseRawRequestConverterInterface
 {
