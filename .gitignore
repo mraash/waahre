@@ -23,14 +23,11 @@
 /assets/vendor/
 
 # docker
-/docker/
-/docker-compose.yaml
+/docker-compose.override.yml
 
-###> phpstan/phpstan ###
+### phpstan/phpstan
 phpstan.neon
-###< phpstan/phpstan ###
 
-###> squizlabs/php_codesniffer ###
+### squizlabs/php_codesniffer
 /.phpcs-cache
 /phpcs.xml
-###< squizlabs/php_codesniffer ###
