@@ -4,10 +4,23 @@ services:
     image: php:8.3-fpm
     volumes:
       - './:/var/www/html'
+
   nginx:
     image: nginx:latest
     ports:
       - 5000:80
     volumes:
       - './:/var/www/html'
-      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'  # Here also php is connected to nginx
+
+  database:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    ports:
+      - 5432:5432

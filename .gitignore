@@ -1,7 +1,8 @@
-# --- sundry
+# --- base
 /.ignore/
 /.idea/
 /.vscode/
+/data/
 /vendor/
 /Makefile
 
@@ -16,7 +17,7 @@
 /assets/vendor/
 
 # --- docker
-/docker-compose.override.yml
+/docker-compose.override.yaml
 
 # --- phpunit
 /.coverage/
