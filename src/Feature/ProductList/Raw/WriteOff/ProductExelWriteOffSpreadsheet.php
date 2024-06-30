@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Feature\ProductList\Raw\WriteOff;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 class ProductExelWriteOffSpreadsheet
 {
@@ -16,7 +16,7 @@ class ProductExelWriteOffSpreadsheet
 
     public function save(string $filename): void
     {
-        $writer = new Xlsx($this->spreadsheet);
+        $writer = new Xls($this->spreadsheet);
 
         $writer->save($filename);
     }

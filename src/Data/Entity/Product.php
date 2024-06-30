@@ -26,7 +26,7 @@ class Product
 
     #[ORM\OneToOne(inversedBy: 'localTwin', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
-    private ?ProductHorizon $horizonTwins = null;
+    private ?ProductHorizon $horizonTwin = null;
 
     /**
      * @var Collection<int, ProductFRestaurant>
@@ -82,12 +82,12 @@ class Product
 
     public function getHorizonTwin(): ?ProductHorizon
     {
-        return $this->horizonTwins;
+        return $this->horizonTwin;
     }
 
     public function setHorizonTwin(ProductHorizon $horizonTwin): static
     {
-        $this->horizonTwins = $horizonTwin;
+        $this->horizonTwin = $horizonTwin;
 
         return $this;
     }

@@ -11,25 +11,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private ProductFRestaurantRepository $fRestaurantProductRepository,
+    ) {
         parent::__construct($registry, Product::class);
     }
 
-    //    /**
-    //     * @return Product[] Returns an array of Product objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @param string[] $fRestaurantCodes
+     *
+     * @return Product[]
+     */
+    public function findListByFRestaurantCodes(array $codes): array
+    {
+        $fRestaurantProducts = $this->fRestaurantProductRepository->findListByCodes($codes);
+
+        $productList = [];
+
+        foreach ($fRestaurantProducts as $fRestaurantProduct) {
+            $productList[] = $fRestaurantProduct->getLocalTwin();
+        }
+
+        return $productList;
+    }
 
     //    public function findOneBySomeField($value): ?Product
     //    {

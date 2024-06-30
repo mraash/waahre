@@ -3,6 +3,8 @@
 namespace App\Http\Controller;
 
 use App\Feature\ProductList\Converter\WarehouseRequestToWriteOffConverter;
+use App\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +40,7 @@ class IndexController extends AbstractController
 
         $result = $this->converter->convertFully($content);
 
-        $filename = 'norakstit-' . time() . '.xlsx';
+        $filename = 'norakstit-' . time() . '.xls';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=\"$filename\"");

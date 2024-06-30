@@ -7,7 +7,7 @@ namespace App\Feature\ProductList\Raw\WriteOff;
 class WriteOffProduct
 {
     public function __construct(
-        public readonly string $code,
+        public readonly string $horizonCode,
         public readonly float $quantity,
     ) {
     }
