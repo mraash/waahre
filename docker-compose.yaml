@@ -1,19 +1,28 @@
 version: '3.8'
 services:
   php:
-    image: php:8.3-fpm
+    # image: php:8.3-fpm
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
     volumes:
       - './:/var/www/html'
+    depends_on:
+      - postgres
 
   nginx:
     image: nginx:latest
+    restart: always
     ports:
       - 5000:80
     volumes:
       - './:/var/www/html'
       - './docker/nginx/conf.d:/etc/nginx/conf.d'  # Here also php is connected to nginx
+    depends_on:
+      - php
 
-  database:
+  postgres:
     image: postgres:16-alpine
     restart: always
     volumes:
