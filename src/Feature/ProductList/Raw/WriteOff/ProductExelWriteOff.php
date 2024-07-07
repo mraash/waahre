@@ -44,7 +44,7 @@ class ProductExelWriteOff
 
     private function prepareSpreadsheet(): Spreadsheet
     {
-        $spreadsheet = IOFactory::load('/var/www/html/templates/exel/write-off-template.xls');
+        $spreadsheet = IOFactory::load('/var/www/html/templates/exel/products/write-off.xls');
 
         return $spreadsheet;
     }
