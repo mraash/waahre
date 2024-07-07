@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\ProductList\Converter;
+namespace App\Domain\Feature\ProductList\Converter;
 
 use App\Data\Entity\Product;
 use App\Data\Repository\ProductRepository;
-use App\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
-use App\Feature\ProductList\Raw\WriteOff\ProductExelWriteOff;
-use App\Feature\ProductList\Raw\WriteOff\ProductExelWriteOffSpreadsheet;
-use App\Feature\ProductList\Raw\WriteOff\WriteOffProduct;
+use App\Domain\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
+use App\Domain\Feature\ProductList\Raw\WriteOff\ProductExelWriteOff;
+use App\Domain\Feature\ProductList\Raw\WriteOff\ProductExelWriteOffSpreadsheet;
+use App\Domain\Feature\ProductList\Raw\WriteOff\WriteOffProduct;
 
 class WarehouseRequestToWriteOffConverter
 {

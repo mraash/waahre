@@ -2,8 +2,8 @@
 
 namespace App\Http\Controller;
 
-use App\Feature\ProductList\Converter\WarehouseRequestToWriteOffConverter;
-use App\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
+use App\Domain\Feature\ProductList\Converter\WarehouseRequestToWriteOffConverter;
+use App\Domain\Feature\ProductList\Raw\WarehouseRequest\ProductHtmlRequest;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

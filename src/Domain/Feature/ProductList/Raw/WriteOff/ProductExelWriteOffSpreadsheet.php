@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\ProductList\Raw\WriteOff;
+namespace App\Domain\Feature\ProductList\Raw\WriteOff;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;

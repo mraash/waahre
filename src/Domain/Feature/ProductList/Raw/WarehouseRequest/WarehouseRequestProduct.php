@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Feature\ProductList\Raw\WarehouseRequest;
+namespace App\Domain\Feature\ProductList\Raw\WarehouseRequest;
 
 class WarehouseRequestProduct
 {
