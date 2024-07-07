@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductList\Raw\WarehouseRequest;
+namespace App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest;
 
 use DOMDocument;
 use DOMElement;

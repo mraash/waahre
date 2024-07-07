@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductList\Raw\WriteOff;
+namespace App\Domain\Feature\ProductListDocuments\Raw\WriteOff;
 
 class WriteOffProduct
 {
