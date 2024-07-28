@@ -65,18 +65,27 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
     /**
      * @param string[] $codes
      *
-     * @return ProductFRestaurant[] Returns an array of ProductFRestaurant objects
+     * @return ProductFRestaurant[]
      */
     public function findListByCodes(array $codes): array
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.code = :val')
-            ->setParameter('val', $codes)
-            ->orderBy('p.name', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        // TODO: read
+        $products = $this->findBy(['code' => $codes]);
+
+        // TODO: Process exception correctly
+        if (in_array(null, $products)) {
+            throw new \DomainException("Unknown 4Restaurant code");
+        }
+
+        return $products;
+
+        // return $this->createQueryBuilder('p')
+        //     ->andWhere('p.code = :val')
+        //     ->setParameter('val', $codes)
+        //     ->orderBy('p.name', 'ASC')
+        //     ->getQuery()
+        //     ->getResult()
+        // ;
     }
 
     //    public function findOneBySomeField($value): ?ProductFRestaurant

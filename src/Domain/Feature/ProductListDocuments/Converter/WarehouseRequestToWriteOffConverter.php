@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Feature\ProductListDocuments\Converter;
 
 use App\Data\Entity\Product;
+use App\Data\Entity\ProductFRestaurant;
 use App\Data\Repository\ProductRepository;
 use App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest\ProductHtmlRequest;
 use App\Domain\Feature\ProductListDocuments\Raw\WriteOff\ProductExelWriteOff;
@@ -33,12 +34,19 @@ class WarehouseRequestToWriteOffConverter
         $exelProducts = [];
 
         foreach ($htmlProducts as $htmlProduct) {
-            $product = current(
-                array_filter(
-                    $products,
-                    fn (Product $product) => $product->getFRestaurantTwins()[0]->getCode() === $htmlProduct->code
-                )
-            );
+            $product = current(array_filter(
+                $products,
+                function (Product $product) use ($htmlProduct) {
+                    $frestaurantProdcuts = $product->getFRestaurantTwins()->toArray();
+                    $frestaurantCodes = array_map(
+                        fn (ProductFRestaurant $productFRestaurant) => $productFRestaurant->getCode(),
+                        $frestaurantProdcuts,
+                    );
+
+                    // TODO: Rethink this logic
+                    return in_array($htmlProduct->code, $frestaurantCodes);
+                }
+            ));
 
             $exelProducts[] = new WriteOffProduct(
                 $product->getHorizonTwin()->getCode(),

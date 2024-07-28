@@ -50,6 +50,7 @@ class ProductHorizonRepository extends ServiceEntityRepository
 
     public function findOneByCode(string $code): ProductHorizon
     {
+        // TODO: read
         $query = $this->getEntityManager()->createQuery(
             'SELECT ph, pl
             FROM App\Data\Entity\ProductHorizon ph

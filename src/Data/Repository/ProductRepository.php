@@ -97,6 +97,11 @@ class ProductRepository extends ServiceEntityRepository
             $productList[] = $fRestaurantProduct->getLocalTwin();
         }
 
+        // TODO: Process exception correctly
+        if (in_array(null, $productList)) {
+            throw new \DomainException("Unknown 4Restaurant code");
+        }
+
         return $productList;
     }
 

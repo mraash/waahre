@@ -13,6 +13,8 @@ class ProductHtmlRequest
     /** @var WarehouseRequestProduct[] */
     private array $productList = [];
 
+    private const IGNORE_LIST = ['000000'];
+
     public function __construct(string $html)
     {
         // TODO: refactor shitcode here
@@ -36,16 +38,31 @@ class ProductHtmlRequest
 
             $cells = $rowNode->getElementsByTagName('td');
 
+            $code              = self::cellToString($cells, 0);
+            $name              = self::cellToString($cells, 1);
+            $unit              = self::cellToString($cells, 2);
+            $notes             = self::cellToString($cells, 3);
+            $quantityBreakfast = self::cellToFloat($cells, 4);
+            $quantityLunch     = self::cellToFloat($cells, 5);
+            $quantityAfternoon = self::cellToFloat($cells, 6);
+            $quantityDinner    = self::cellToFloat($cells, 7);
+            $quantityTotal     = self::cellToFloat($cells, 8);
+
+            // TODO: Move this logic somewhere
+            if (in_array($code, self::IGNORE_LIST)) {
+                continue;
+            }
+
             $this->productList[] = new WarehouseRequestProduct(
-                self::cellToString($cells, 0),
-                self::cellToString($cells, 1),
-                self::cellToString($cells, 2),
-                self::cellToString($cells, 3),
-                self::cellToFloat($cells, 4),
-                self::cellToFloat($cells, 5),
-                self::cellToFloat($cells, 6),
-                self::cellToFloat($cells, 7),
-                self::cellToFloat($cells, 8),
+                $code,
+                $name,
+                $unit,
+                $notes,
+                $quantityBreakfast,
+                $quantityLunch,
+                $quantityAfternoon,
+                $quantityDinner,
+                $quantityTotal,
             );
         }
     }
@@ -60,11 +77,11 @@ class ProductHtmlRequest
 
     private static function cellToString(DOMNodeList $nodeList, int $index): string
     {
-        return trim($nodeList->item($index)->textContent);
+        return $nodeList->item($index)->textContent;
     }
 
     private static function cellToFloat(DOMNodeList $nodeList, int $index): float
     {
-        return (float) str_replace(',', '.', trim($nodeList->item($index)->textContent));
+        return (float) str_replace(',', '.', $nodeList->item($index)->textContent);
     }
 }
