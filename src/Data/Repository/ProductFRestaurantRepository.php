@@ -16,6 +16,52 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductFRestaurant::class);
     }
 
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function createEntity(string $code, string $name): ProductFRestaurant
+    {
+        return (new ProductFRestaurant())
+            ->setCode($code)
+            ->setName($name)
+        ;
+    }
+
+    public function save(ProductFRestaurant $frestarantProduct): void
+    {
+        $this->getEntityManager()->persist($frestarantProduct);
+    }
+
+    /**
+     * @param ProductFRestaurant[] $fRestaurantProducts
+     */
+    public function saveList(array $fRestaurantProducts): void
+    {
+        foreach ($fRestaurantProducts as $fRestaurantProduct) {
+            $this->save($fRestaurantProduct);
+        }
+    }
+
+    public function deleteAll(): void
+    {
+        $products = $this->findAll();
+
+        foreach ($products as $product) {
+            $this->getEntityManager()->remove($product);
+        }
+    }
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /**
      * @param string[] $codes
      *

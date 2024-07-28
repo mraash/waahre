@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controller;
 
 use App\Domain\Feature\ProductListDocuments\Converter\WarehouseRequestToWriteOffConverter;

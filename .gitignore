@@ -2,7 +2,7 @@
 /.ignore/
 /.idea/
 /.vscode/
-/data/
+/data-local/
 /vendor/
 /Makefile
 /src/**/Exxample*.php
