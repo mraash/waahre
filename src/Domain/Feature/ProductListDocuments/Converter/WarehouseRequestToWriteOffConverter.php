@@ -48,11 +48,15 @@ class WarehouseRequestToWriteOffConverter
                 }
             ));
 
+            // dump($product->getHorizonTwin()->getName());
+
             $exelProducts[] = new WriteOffProduct(
                 $product->getHorizonTwin()->getCode(),
                 $htmlProduct->quantityTotal,
             );
         }
+
+        // dd(1);
 
         return new ProductExelWriteOff($exelProducts);
     }

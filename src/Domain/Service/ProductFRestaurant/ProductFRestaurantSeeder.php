@@ -88,7 +88,7 @@ class ProductFRestaurantSeeder
             "12-010"   => "Žāvētu augļu maisījums, rieksti, rozīnes",
         ];
 
-        $productsWithDifferentNamesAndCodes = [
+        $strictTwins = [
             'Makaroni  Lazanja  un Kus kus' => $this->productRepository->findOneByHorizonName(
                 'Makaroni  Lazanja, spageti  un Kus kus'
             ),
@@ -101,6 +101,12 @@ class ProductFRestaurantSeeder
             'Cepamais pulveris,  SODA' => $this->productRepository->findOneByHorizonName(
                 'Soda dzeramā'
             ),
+            'Pētersīļi SALDĒTI' => $this->productRepository->findOneByHorizonName(
+                'Pētersili svaigi'
+            ),
+            'Kāposti svaigie' => $this->productRepository->findOneByHorizonName(
+                'Kāposti jaunie'
+            ),
         ];
 
         foreach ($frestaurantProducts as $frestaurant) {
@@ -108,7 +114,7 @@ class ProductFRestaurantSeeder
                 continue;
             }
 
-            $matchedProduct = current(array_filter(
+            $matchedProduct = $strictTwins[$frestaurant->getName()] ?? current(array_filter(
                 $products,
                 function ($product) use ($frestaurant) {
                     $hroizonCode = $product->getHorizonTwin()->getCode();
@@ -121,13 +127,13 @@ class ProductFRestaurantSeeder
             ));
 
             if (!$matchedProduct) {
-                if (!isset($productsWithDifferentNamesAndCodes[$frestaurant->getName()])) {
+                if (!isset($strictTwins[$frestaurant->getName()])) {
                     $debugNone[] = $frestaurant->getCode() . ' ----- ' . $frestaurant->getName();
 
                     continue;
                 }
 
-                $matchedProduct = $productsWithDifferentNamesAndCodes[$frestaurant->getName()];
+                $matchedProduct = $strictTwins[$frestaurant->getName()];
             }
 
             $frestaurantCode = $frestaurant->getCode();
@@ -141,7 +147,7 @@ class ProductFRestaurantSeeder
                 && $productsWithDifferentNames[$frestaurantCode] === $frestaurant->getName()
             ;
             $areSpecialSpecialProducts = isset(
-                $productsWithDifferentNamesAndCodes[$frestaurant->getName()]
+                $strictTwins[$frestaurant->getName()]
             );
             $areCodesEqual = $hroizonCode === $frestaurantCode;
 
