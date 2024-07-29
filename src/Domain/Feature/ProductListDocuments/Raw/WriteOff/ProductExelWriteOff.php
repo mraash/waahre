@@ -11,8 +11,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ProductExelWriteOff
 {
-    private const COLUMN_CODE = 'A';
-    private const COLUMN_QUANTITY = 'B';
+    private const COLUMN_CODE = 'B';
+    private const COLUMN_QUANTITY = 'D';
 
     /**
      * @param WriteOffProduct[] $productList
