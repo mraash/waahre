@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Converter;
+namespace App\Domain\Feature\ProductDocumentConverter;
 
 use App\Data\Entity\Product;
 use App\Data\Entity\ProductFRestaurant;
 use App\Data\Repository\ProductRepository;
-use App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest\ProductHtmlRequest;
-use App\Domain\Feature\ProductListDocuments\Raw\WriteOff\ProductExelWriteOff;
-use App\Domain\Feature\ProductListDocuments\Raw\WriteOff\ProductExelWriteOffSpreadsheet;
-use App\Domain\Feature\ProductListDocuments\Raw\WriteOff\WriteOffProduct;
+use App\Domain\Feature\ProductDocument\WriteOff\ProductExelWriteOff;
+use App\Domain\Feature\ProductDocument\WriteOff\WriteOffProduct;
 
 class WarehouseRequestToWriteOffConverter
 {
@@ -19,14 +17,14 @@ class WarehouseRequestToWriteOffConverter
     ) {
     }
 
-    public function convert(ProductHtmlRequest $productHtmlList): ProductExelWriteOff
+    public function convert(WarehouseRequestInterface $productHtmlList): ProductExelWriteOff
     {
-        $htmlProducts = $productHtmlList->getProductList();
+        $htmlProducts = $productHtmlList->getItems();
 
         $fRestaurantCodes = [];
 
         foreach ($htmlProducts as $htmlProduct) {
-            $fRestaurantCodes[] = $htmlProduct->code;
+            $fRestaurantCodes[] = $htmlProduct->getCode();
         }
 
         $products = $this->productRepository->findListByFRestaurantCodes($fRestaurantCodes);
@@ -44,7 +42,7 @@ class WarehouseRequestToWriteOffConverter
                     );
 
                     // TODO: Rethink this logic
-                    return in_array($htmlProduct->code, $frestaurantCodes);
+                    return in_array($htmlProduct->getCode(), $frestaurantCodes);
                 }
             ));
 
@@ -52,19 +50,12 @@ class WarehouseRequestToWriteOffConverter
 
             $exelProducts[] = new WriteOffProduct(
                 $product->getHorizonTwin()->getCode(),
-                $htmlProduct->quantityTotal,
+                $htmlProduct->getTotalQuantity(),
             );
         }
 
         // dd(1);
 
         return new ProductExelWriteOff($exelProducts);
-    }
-
-    public function convertFully(string $warehouseRequestHtml): ProductExelWriteOffSpreadsheet
-    {
-        $productHtmlRequest = new ProductHtmlRequest($warehouseRequestHtml);
-
-        return $this->convert($productHtmlRequest)->getRawData();
     }
 }

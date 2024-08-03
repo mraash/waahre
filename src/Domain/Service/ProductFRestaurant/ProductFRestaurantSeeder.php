@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\ProductFRestaurant;
 
-use App\Data\Entity\Product;
 use App\Data\Repository\ProductFRestaurantRepository;
-use App\Data\Repository\ProductHorizonRepository;
 use App\Data\Repository\ProductRepository;
-use App\Domain\Feature\ProductListDocuments\Raw\FRestaurantProducts\FRestaurantProducts;
-use App\Domain\Feature\ProductListDocuments\Raw\FRestaurantProducts\FRestaurantProductsItem;
+use App\Domain\Feature\ProductDocument\FRestaurantProducts\FRestaurantProducts;
+use App\Domain\Feature\ProductDocument\FRestaurantProducts\FRestaurantProductsItem;
 
 class ProductFRestaurantSeeder
 {

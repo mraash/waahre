@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Raw\HorizonProducts;
+namespace App\Domain\Feature\ProductDocument\HorizonProducts;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 

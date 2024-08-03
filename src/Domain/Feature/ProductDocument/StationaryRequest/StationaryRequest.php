@@ -2,20 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest;
+namespace App\Domain\Feature\ProductDocument\StationaryRequest;
 
+use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestInterface;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
 
-class ProductHtmlRequest
+class StationaryRequest implements WarehouseRequestInterface
 {
-    /** @var WarehouseRequestProduct[] */
-    private array $productList = [];
-
     private const IGNORE_LIST = ['000000'];
 
-    public function __construct(string $html)
+    /**
+     * @param StationaryRequestItem[] $items
+     */
+    public function __construct(
+        private array $items
+    ) {
+    }
+
+    public static function fromHtmlString(string $html): self
     {
         // TODO: refactor shitcode here
 
@@ -26,6 +32,8 @@ class ProductHtmlRequest
         $table = $dom->getElementsByTagName('table')->item(1);
 
         $rows = $table->getElementsByTagName('tr');
+
+        $items = [];
 
         foreach ($rows as $rowNode) {
             /** @var DOMElement $rowNode */
@@ -53,7 +61,7 @@ class ProductHtmlRequest
                 continue;
             }
 
-            $this->productList[] = new WarehouseRequestProduct(
+            $items[] = new StationaryRequestItem(
                 $code,
                 $name,
                 $unit,
@@ -65,14 +73,23 @@ class ProductHtmlRequest
                 $quantityTotal,
             );
         }
+
+        return new self($items);
+    }
+
+    public static function fromFile(string $filename): self
+    {
+        $content = file_get_contents($filename);
+
+        return self::fromHtmlString($content);
     }
 
     /**
-     * @return WarehouseRequestProduct[]
+     * @return StationaryRequestItem[]
      */
-    public function getProductList(): array
+    public function getItems(): array
     {
-        return $this->productList;
+        return $this->items;
     }
 
     private static function cellToString(DOMNodeList $nodeList, int $index): string

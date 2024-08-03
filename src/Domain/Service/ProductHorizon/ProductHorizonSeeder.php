@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Service\ProductHorizon;
 
 use App\Data\Repository\ProductHorizonRepository;
-use App\Domain\Feature\ProductListDocuments\Raw\HorizonProducts\HorizonProducts;
+use App\Domain\Feature\ProductDocument\HorizonProducts\HorizonProducts;
 
 class ProductHorizonSeeder
 {

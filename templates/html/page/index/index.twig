@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block body %}
-    <form action="{{ path('action.convert') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="{{ form.file }}"><br><br>
+    <form action="{{ path('action.convert.stationary') }}" method="post" enctype="multipart/form-data">
+        <h3>Stationary</h3>
+        <input type="file" name="{{ form.stationary.file }}"><br><br>
+        <button type="submit">Convert</button>
+    </form>
+    <br>
+    <form action="{{ path('action.convert.buffet') }}" method="post" enctype="multipart/form-data">
+        <h3>Buffet</h3>
+        <input type="file" name="{{ form.buffet.file }}"><br><br>
         <button type="submit">Convert</button>
     </form>
 {% endblock body %}

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Raw\HorizonProducts;
+namespace App\Domain\Feature\ProductDocument\FRestaurantProducts;
 
-class HorizonProductsItem
+class FRestaurantProductsItem
 {
     public function __construct(
         public readonly string $code,

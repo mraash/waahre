@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Raw\FRestaurantProducts;
+namespace App\Domain\Feature\ProductDocument\FRestaurantProducts;
 
 use DOMDocument;
 use DOMElement;

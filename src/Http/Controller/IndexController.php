@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controller;
 
-use App\Domain\Feature\ProductListDocuments\Converter\WarehouseRequestToWriteOffConverter;
-use App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest\ProductHtmlRequest;
+use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestToWriteOffConverter;
+use App\Domain\Feature\ProductDocument\BuffetRequest\BuffetRequest;
+use App\Domain\Feature\ProductDocument\StationaryRequest\StationaryRequest;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,7 +16,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class IndexController extends AbstractController
 {
-    private const FORM_WAREHOUSE_REQUEST = 'warehouse-request-html';
+    private const FORM_STATIONARY_REQUEST = 'warehouse-request-html';
+    private const FORM_BUFFET_REQUEST = 'warehouse-request-xml';
 
     public function __construct(
         private WarehouseRequestToWriteOffConverter $converter,
@@ -27,23 +29,50 @@ class IndexController extends AbstractController
     {
         return $this->render('page/index/index.twig', [
             'form' => [
-                'file' => self::FORM_WAREHOUSE_REQUEST,
+                'stationary' => [
+                    'file' => self::FORM_STATIONARY_REQUEST,
+                ],
+                'buffet' => [
+                    'file' => self::FORM_BUFFET_REQUEST,
+                ],
             ],
         ]);
     }
 
-    #[Route('/convert', name: 'action.convert', methods: ['POST'])]
-    public function convert(Request $request): Response
+    #[Route('/convert-stationary', name: 'action.convert.stationary', methods: ['POST'])]
+    public function convertStationary(Request $request): Response
     {
         /** @var UploadedFile */
-        $file = $request->files->get(self::FORM_WAREHOUSE_REQUEST);
+        $file = $request->files->get(self::FORM_STATIONARY_REQUEST);
 
-        $content = file_get_contents($file->getPathname());
+        $stationaryRequest = StationaryRequest::fromFile($file->getPathname());
 
-        $result = $this->converter->convertFully($content);
+        $result = $this->converter->convert($stationaryRequest)->getRawData();
 
         $filename = 'norakstit-' . time() . '.xls';
 
+        // TODO: Wrap this in Symfony
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment;filename=\"$filename\"");
+
+        $result->save('php://output');
+
+        return new Response();
+    }
+
+    #[Route('/convert-buffet', name: 'action.convert.buffet', methods: ['POST'])]
+    public function convertBuffet(Request $request): Response
+    {
+        /** @var UploadedFile */
+        $file = $request->files->get(self::FORM_BUFFET_REQUEST);
+
+        $buffetRequest = BuffetRequest::fromFile($file->getPathname());
+
+        $result = $this->converter->convert($buffetRequest)->getRawData();
+
+        $filename = 'norakstit-' . time() . '.xls';
+
+        // TODO: Wrap this in Symfony
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=\"$filename\"");
 

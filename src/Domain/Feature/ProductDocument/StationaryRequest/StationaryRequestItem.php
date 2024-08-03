@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductListDocuments\Raw\WarehouseRequest;
+namespace App\Domain\Feature\ProductDocument\StationaryRequest;
 
-class WarehouseRequestProduct
+use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestItemInterface;
+
+class StationaryRequestItem implements WarehouseRequestItemInterface
 {
     public function __construct(
         public readonly string $code,
@@ -17,5 +19,20 @@ class WarehouseRequestProduct
         public readonly float $quantityDinner,
         public readonly float $quantityTotal,
     ) {
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getTotalQuantity(): float
+    {
+        return $this->quantityTotal;
     }
 }
