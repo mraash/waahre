@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestToWriteOffConverter;
-use App\Domain\Feature\ProductDocument\BuffetRequest\BuffetRequest;
-use App\Domain\Feature\ProductDocument\StationaryRequest\StationaryRequest;
+use App\Domain\Feature\ProductDocument\BuffetProductRequest\BuffetProductRequest;
+use App\Domain\Feature\ProductDocument\StationaryProductRequest\StationaryProductRequest;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -45,7 +45,7 @@ class IndexController extends AbstractController
         /** @var UploadedFile */
         $file = $request->files->get(self::FORM_STATIONARY_REQUEST);
 
-        $stationaryRequest = StationaryRequest::fromFile($file->getPathname());
+        $stationaryRequest = StationaryProductRequest::fromFile($file->getPathname());
 
         $result = $this->converter->convert($stationaryRequest)->getRawData();
 
@@ -66,7 +66,7 @@ class IndexController extends AbstractController
         /** @var UploadedFile */
         $file = $request->files->get(self::FORM_BUFFET_REQUEST);
 
-        $buffetRequest = BuffetRequest::fromFile($file->getPathname());
+        $buffetRequest = BuffetProductRequest::fromFile($file->getPathname());
 
         $result = $this->converter->convert($buffetRequest)->getRawData();
 

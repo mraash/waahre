@@ -7,7 +7,7 @@ namespace App\Domain\Feature\ProductDocument\WriteOff;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
-class ProductExelWriteOffSpreadsheet
+class ProductWriteOffSpreadsheet
 {
     public function __construct(
         private readonly Spreadsheet $spreadsheet,

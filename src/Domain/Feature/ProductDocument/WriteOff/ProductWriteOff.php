@@ -5,24 +5,22 @@ declare(strict_types=1);
 namespace App\Domain\Feature\ProductDocument\WriteOff;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\RichText\RichText;
-use PhpOffice\PhpSpreadsheet\RichText\TextElement;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class ProductExelWriteOff
+class ProductWriteOff
 {
     private const COLUMN_CODE = 'B';
     private const COLUMN_QUANTITY = 'D';
 
     /**
-     * @param WriteOffProduct[] $productList
+     * @param ProductWriteOffItem[] $productList
      */
     public function __construct(
         private array $productList,
     ) {
     }
 
-    public function getRawData(): ProductExelWriteOffSpreadsheet
+    public function getRawData(): ProductWriteOffSpreadsheet
     {
         $spreadsheet = $this->prepareSpreadsheet();
 
@@ -39,7 +37,7 @@ class ProductExelWriteOff
             $currentRow++;
         }
 
-        return new ProductExelWriteOffSpreadsheet($spreadsheet);
+        return new ProductWriteOffSpreadsheet($spreadsheet);
     }
 
     private function prepareSpreadsheet(): Spreadsheet

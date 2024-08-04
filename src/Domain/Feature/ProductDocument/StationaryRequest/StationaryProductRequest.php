@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductDocument\StationaryRequest;
+namespace App\Domain\Feature\ProductDocument\StationaryProductRequest;
 
 use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestInterface;
 use DOMDocument;
 use DOMElement;
 use DOMNodeList;
 
-class StationaryRequest implements WarehouseRequestInterface
+class StationaryProductRequest implements WarehouseRequestInterface
 {
     private const IGNORE_LIST = ['000000'];
 
     /**
-     * @param StationaryRequestItem[] $items
+     * @param StationaryProductRequestItem[] $items
      */
     public function __construct(
         private array $items
@@ -61,7 +61,7 @@ class StationaryRequest implements WarehouseRequestInterface
                 continue;
             }
 
-            $items[] = new StationaryRequestItem(
+            $items[] = new StationaryProductRequestItem(
                 $code,
                 $name,
                 $unit,
@@ -85,7 +85,7 @@ class StationaryRequest implements WarehouseRequestInterface
     }
 
     /**
-     * @return StationaryRequestItem[]
+     * @return StationaryProductRequestItem[]
      */
     public function getItems(): array
     {

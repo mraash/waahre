@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductDocument\BuffetRequest;
+namespace App\Domain\Feature\ProductDocument\BuffetProductRequest;
 
 use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestItemInterface;
 
-class BuffetRequestItem implements WarehouseRequestItemInterface
+class BuffetProductRequestItem implements WarehouseRequestItemInterface
 {
     public function __construct(
         private readonly string $code,

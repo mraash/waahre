@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductDocument\StationaryRequest;
+namespace App\Domain\Feature\ProductDocument\StationaryProductRequest;
 
 use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestItemInterface;
 
-class StationaryRequestItem implements WarehouseRequestItemInterface
+class StationaryProductRequestItem implements WarehouseRequestItemInterface
 {
     public function __construct(
         public readonly string $code,

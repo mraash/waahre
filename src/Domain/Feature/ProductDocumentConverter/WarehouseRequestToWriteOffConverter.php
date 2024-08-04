@@ -7,8 +7,8 @@ namespace App\Domain\Feature\ProductDocumentConverter;
 use App\Data\Entity\Product;
 use App\Data\Entity\ProductFRestaurant;
 use App\Data\Repository\ProductRepository;
-use App\Domain\Feature\ProductDocument\WriteOff\ProductExelWriteOff;
-use App\Domain\Feature\ProductDocument\WriteOff\WriteOffProduct;
+use App\Domain\Feature\ProductDocument\WriteOff\ProductWriteOff;
+use App\Domain\Feature\ProductDocument\WriteOff\ProductWriteOffItem;
 
 class WarehouseRequestToWriteOffConverter
 {
@@ -17,7 +17,7 @@ class WarehouseRequestToWriteOffConverter
     ) {
     }
 
-    public function convert(WarehouseRequestInterface $productHtmlList): ProductExelWriteOff
+    public function convert(WarehouseRequestInterface $productHtmlList): ProductWriteOff
     {
         $htmlProducts = $productHtmlList->getItems();
 
@@ -48,7 +48,7 @@ class WarehouseRequestToWriteOffConverter
 
             // dump($product->getHorizonTwin()->getName());
 
-            $exelProducts[] = new WriteOffProduct(
+            $exelProducts[] = new ProductWriteOffItem(
                 $product->getHorizonTwin()->getCode(),
                 $htmlProduct->getTotalQuantity(),
             );
@@ -56,6 +56,6 @@ class WarehouseRequestToWriteOffConverter
 
         // dd(1);
 
-        return new ProductExelWriteOff($exelProducts);
+        return new ProductWriteOff($exelProducts);
     }
 }

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Feature\ProductDocument\BuffetRequest;
+namespace App\Domain\Feature\ProductDocument\BuffetProductRequest;
 
 use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class BuffetRequest implements WarehouseRequestInterface
+class BuffetProductRequest implements WarehouseRequestInterface
 {
     /**
-     * @param BuffetRequestItem[] $items
+     * @param BuffetProductRequestItem[] $items
      */
     public function __construct(
         private array $items
@@ -46,7 +46,7 @@ class BuffetRequest implements WarehouseRequestInterface
                 break;
             }
 
-            $items[] = new BuffetRequestItem(
+            $items[] = new BuffetProductRequestItem(
                 $codeValue,
                 $nameValue,
                 $unitValue,
