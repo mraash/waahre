@@ -94,12 +94,14 @@ class ProductRepository extends ServiceEntityRepository
         $productList = [];
 
         foreach ($fRestaurantProducts as $fRestaurantProduct) {
-            $productList[] = $fRestaurantProduct->getLocalTwin();
-        }
+            $product = $fRestaurantProduct->getLocalTwin();
 
-        // TODO: Process exception correctly
-        if (in_array(null, $productList)) {
-            throw new \DomainException("Unknown 4Restaurant code");
+            // TODO: Process exception correctly
+            if ($product === null) {
+                throw new \DomainException("Unknown 4Restaurant code \"{$fRestaurantProduct->getCode()}\"");
+            }
+
+            $productList[] = $product;
         }
 
         return $productList;
