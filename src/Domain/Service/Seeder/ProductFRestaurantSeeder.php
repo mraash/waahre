@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Service\ProductFRestaurant;
+namespace App\Domain\Service\Seeder;
 
-use App\Data\Creation\ProductFRestaurantCreation;
+use App\Domain\Service\Creation\ProductFRestaurantCreation;
 use App\Data\Repository\ProductFRestaurantRepository;
 use App\Data\Repository\ProductRepository;
 use App\Domain\Feature\ProductDocument\FRestaurantProducts\FRestaurantProducts;
@@ -171,7 +171,7 @@ class ProductFRestaurantSeeder
 
     public function clear(): void
     {
-        $this->repository->deleteAll();
+        $this->repository->deleteList($this->repository->findAll());
         $this->repository->flush();
     }
 

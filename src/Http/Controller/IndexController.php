@@ -8,7 +8,7 @@ use App\Domain\Feature\ProductDocumentConverter\WarehouseRequestToWriteOffConver
 use App\Domain\Feature\ProductDocument\BuffetProductRequest\BuffetProductRequest;
 use App\Domain\Feature\ProductDocument\StationaryProductRequest\StationaryProductRequest;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Base\Http\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

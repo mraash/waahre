@@ -2,14 +2,14 @@
 
 namespace App\Data\Repository;
 
+use App\Base\Data\AbstractRepository;
 use App\Data\Entity\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Product>
+ * @extends AbstractRepository<Product>
  */
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends AbstractRepository
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -19,11 +19,6 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function flush(): void
-    {
-        $this->getEntityManager()->flush();
-    }
-
     public function findAll(): array
     {
         return $this->createQueryBuilder('p')
@@ -31,35 +26,6 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-    }
-
-    public function save(Product $product): void
-    {
-        $this->getEntityManager()->persist($product);
-    }
-
-    /**
-     * @param Product[] $products
-     */
-    public function saveList(array $products): void
-    {
-        foreach ($products as $product) {
-            $this->getEntityManager()->persist($product);
-        }
-    }
-
-    public function delete(Product $product): void
-    {
-        $this->getEntityManager()->remove($product);
-    }
-
-    public function deleteAll(): void
-    {
-        $products = $this->findAll();
-
-        foreach ($products as $product) {
-            $this->delete($product);
-        }
     }
 
     public function findOneByName(string $name): Product

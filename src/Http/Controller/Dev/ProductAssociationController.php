@@ -7,7 +7,7 @@ namespace App\Http\Controller\Dev;
 use App\Data\Repository\ProductFRestaurantRepository;
 use App\Data\Repository\ProductHorizonRepository;
 use App\Data\Repository\ProductRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Base\Http\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 

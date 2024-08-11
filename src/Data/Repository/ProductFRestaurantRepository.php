@@ -2,52 +2,18 @@
 
 namespace App\Data\Repository;
 
+use App\Base\Data\AbstractRepository;
 use App\Data\Entity\ProductFRestaurant;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ProductFRestaurant>
+ * @extends AbstractRepository<ProductFRestaurant>
  */
-class ProductFRestaurantRepository extends ServiceEntityRepository
+class ProductFRestaurantRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ProductFRestaurant::class);
-    }
-
-    public function flush(): void
-    {
-        $this->getEntityManager()->flush();
-    }
-
-    public function save(ProductFRestaurant $frestarantProduct): void
-    {
-        $this->getEntityManager()->persist($frestarantProduct);
-    }
-
-    /**
-     * @param ProductFRestaurant[] $fRestaurantProducts
-     */
-    public function saveList(array $fRestaurantProducts): void
-    {
-        foreach ($fRestaurantProducts as $fRestaurantProduct) {
-            $this->save($fRestaurantProduct);
-        }
-    }
-
-    public function deleteAll(): void
-    {
-        $products = $this->findAll();
-
-        foreach ($products as $product) {
-            $this->getEntityManager()->remove($product);
-        }
-    }
-
-    public function findOneByName(string $name): ProductFRestaurant
-    {
-        return $this->findOneBy(['name' => $name]);
     }
 
     public function findAll(): array
@@ -59,6 +25,11 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneByName(string $name): ProductFRestaurant
+    {
+        return $this->findOneByCriteriaOrNull(['name' => $name]);
+    }
+
     /**
      * @param string[] $codes
      *
@@ -67,7 +38,7 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
     public function findListByCodes(array $codes): array
     {
         // TODO: read
-        $products = $this->findBy(['code' => $codes]);
+        $products = $this->findListByCriteria(['code' => $codes]);
 
         // TODO: Process exception correctly
         if (in_array(null, $products)) {
@@ -75,23 +46,5 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
         }
 
         return $products;
-
-        // return $this->createQueryBuilder('p')
-        //     ->andWhere('p.code = :val')
-        //     ->setParameter('val', $codes)
-        //     ->orderBy('p.name', 'ASC')
-        //     ->getQuery()
-        //     ->getResult()
-        // ;
     }
-
-    //    public function findOneBySomeField($value): ?ProductFRestaurant
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

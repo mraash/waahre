@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Service\Product;
+namespace App\Domain\Service\Seeder;
 
-use App\Data\Creation\ProductCreation;
+use App\Domain\Service\Creation\ProductCreation;
 use App\Data\Repository\ProductHorizonRepository;
 use App\Data\Repository\ProductRepository;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Data\Creation;
+namespace App\Domain\Service\Creation;
 
 use App\Data\Entity\ProductFRestaurant;
 

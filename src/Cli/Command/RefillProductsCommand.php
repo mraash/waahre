@@ -5,9 +5,9 @@ namespace App\Cli\Command;
 use App\Data\Repository\ProductFRestaurantRepository;
 use App\Data\Repository\ProductHorizonRepository;
 use App\Data\Repository\ProductRepository;
-use App\Domain\Service\Product\ProductSeeder;
-use App\Domain\Service\ProductFRestaurant\ProductFRestaurantSeeder;
-use App\Domain\Service\ProductHorizon\ProductHorizonSeeder;
+use App\Domain\Service\Seeder\ProductSeeder;
+use App\Domain\Service\Seeder\ProductFRestaurantSeeder;
+use App\Domain\Service\Seeder\ProductHorizonSeeder;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,9 +43,9 @@ class RefillProductsCommand extends Command
         $horizonFilename = "{$this->projectDir}/data/db-seeds/products-horizon.xlsx";
         $frestaurantFilename = "{$this->projectDir}/data/db-seeds/products-4restaurant.html";
 
-        $this->productRepository->deleteAll();
-        $this->productHorizonRepository->deleteAll();
-        $this->productFRestaurantRepository->deleteAll();
+        $this->productRepository->deleteList($this->productRepository->findAll());
+        $this->productHorizonRepository->deleteList($this->productHorizonRepository->findAll());
+        $this->productFRestaurantRepository->deleteList($this->productFRestaurantRepository->findAll());
         $this->productRepository->flush();
 
         $this->productHorizonSeeder->fillDbTableFromProductListFile($horizonFilename);
