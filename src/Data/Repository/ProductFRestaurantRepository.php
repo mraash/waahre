@@ -21,14 +21,6 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function createEntity(string $code, string $name): ProductFRestaurant
-    {
-        return (new ProductFRestaurant())
-            ->setCode($code)
-            ->setName($name)
-        ;
-    }
-
     public function save(ProductFRestaurant $frestarantProduct): void
     {
         $this->getEntityManager()->persist($frestarantProduct);
@@ -53,10 +45,15 @@ class ProductFRestaurantRepository extends ServiceEntityRepository
         }
     }
 
+    public function findOneByName(string $name): ProductFRestaurant
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
     public function findAll(): array
     {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.name', 'ASC')
+        return $this->createQueryBuilder('f')
+            ->orderBy('f.name', 'ASC')
             ->getQuery()
             ->getResult()
         ;

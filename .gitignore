@@ -7,6 +7,7 @@
 /Makefile
 /src/**/Exxample*.php
 /tests/**/Exxample*.php
+/templates/**/exxample*.twig
 
 # --- symfony
 /.env.local

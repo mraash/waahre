@@ -24,23 +24,18 @@ class ProductRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function createEntity(string $name, string $slug = null, string $orderName = null): Product
+    public function findAll(): array
     {
-        if ($slug === null) {
-            // $slug = trim($name);
-            // $slug = strtolower($generatedSlug);
-            $slug = self::makeSlug($name);
-        }
-
-        if ($orderName === null) {
-            $orderName = $name;
-        }
-
-        return (new Product())
-            ->setName($name)
-            ->setSlug($slug)
-            ->setOrderName($orderName)
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult()
         ;
+    }
+
+    public function save(Product $product): void
+    {
+        $this->getEntityManager()->persist($product);
     }
 
     /**
@@ -53,12 +48,17 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function delete(Product $product): void
+    {
+        $this->getEntityManager()->remove($product);
+    }
+
     public function deleteAll(): void
     {
         $products = $this->findAll();
 
         foreach ($products as $product) {
-            $this->getEntityManager()->remove($product);
+            $this->delete($product);
         }
     }
 
@@ -72,14 +72,10 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneByHorizonName(string $name): Product
+    public function findFirstByHorizonName(string $name): Product
     {
-        return $this->horizonRepository->findOneByName($name)->getLocalTwin();
-    }
-
-    public function findOneByHorizonCode(string $code): Product
-    {
-        return $this->horizonRepository->findOneByCode($code)->getLocalTwin();
+        // TODO: ->first() is not good
+        return $this->horizonRepository->findOneByName($name)->getProductLinks()->first();
     }
 
     /**
@@ -94,7 +90,8 @@ class ProductRepository extends ServiceEntityRepository
         $productList = [];
 
         foreach ($fRestaurantProducts as $fRestaurantProduct) {
-            $product = $fRestaurantProduct->getLocalTwin();
+            // TODO: ->first() is not good
+            $product = $fRestaurantProduct->getProductLinks()->first();
 
             // TODO: Process exception correctly
             if ($product === null) {
@@ -107,7 +104,7 @@ class ProductRepository extends ServiceEntityRepository
         return $productList;
     }
 
-    private static function makeSlug(string $string): string
+    public static function makeSlug(string $string): string
     {
         // TODO: Move this method somewhere
 
@@ -127,13 +124,13 @@ class ProductRepository extends ServiceEntityRepository
 
         $slug = $string;
         $slug = mb_strtolower($slug);
-        $slug = trim($slug);
 
         foreach ($table as $invalid => $valid) {
             $slug = str_replace($invalid, $valid, $slug);
         }
 
         $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $slug);
+        $slug = trim($slug, '-');
 
         return $slug;
     }

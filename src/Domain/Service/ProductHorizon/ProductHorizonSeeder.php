@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\ProductHorizon;
 
+use App\Data\Creation\ProductHorizonCreation;
 use App\Data\Repository\ProductHorizonRepository;
 use App\Domain\Feature\ProductDocument\HorizonProducts\HorizonProducts;
 
@@ -30,7 +31,7 @@ class ProductHorizonSeeder
                 continue;
             }
 
-            $horizonProductList[] = $this->repository->createEntity(
+            $horizonProductList[] = ProductHorizonCreation::create(
                 $productRow->code,
                 $productRow->name,
             );

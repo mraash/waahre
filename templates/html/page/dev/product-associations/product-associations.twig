@@ -1,0 +1,235 @@
+{% extends 'layout/base.twig' %}
+
+{% block title %}
+    Html to Xsl
+{% endblock %}
+
+{% block style %}
+    <style>
+        .main {
+            display: flex;
+        }
+
+        .main > div {
+            margin-right: 60px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+        }
+
+        td.empty {
+            border: none;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="main">
+        <div>
+            <h3>4Restaurant</h3>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>4Restaurant</th>
+                        <th>Product</th>
+                    </tr>
+                    {% for frestaurant in frestaurant.hasManyProducts %}
+                        {% for product in frestaurant.productLinks %}
+                            <tr>
+                                {% if loop.index == 1 %}
+                                    <td rowspan="{{ frestaurant.productLinks.count() }}">{{ frestaurant.name }}</td>
+                                {% endif %}
+                                <td>{{ product.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="empty">Empty</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>4Restaurant</th>
+                        <th>Product</th>
+                    </tr>
+                    {% for product in products.hasManyFrestaurant %}
+                        {% for frestaurantLink in product.frestaurantLinks %}
+                            <tr>
+                                <td>
+                                    {{ frestaurantLink.name }}
+                                </td>
+                                {% if loop.index == 1 %}
+                                    <td rowspan="{{ product.frestaurantLinks.count() }}">
+                                        {{ product.name }}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>No Product</th>
+                    </tr>
+                    {% for frestaurant in frestaurant.hasNoProducts %}
+                    <tr>
+                        <td>{{ frestaurant.name }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h3>Product</h3>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>No 4Restaurant</th>
+                    </tr>
+                    {% for product in products.hasNoFrestaurant %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>No Horizon</th>
+                    </tr>
+                    {% for product in products.hasNoHorizon %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>Product regular</th>
+                    </tr>
+                    {% for product in products.regular %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <h3>Horizon</h3>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>Product</th>
+                        <th>Horizon</th>
+                    </tr>
+                        {% for product in products.hasManyHorizon %}
+                            {% for horizon in product.horizonLinks %}
+                                <tr>
+                                    {% if loop.index == 1 %}
+                                        <td rowspan="{{ product.horizonLinks.count() }}">
+                                            {{ product.name }}
+                                        </td>
+                                    {% endif %}
+                                    <td>
+                                        {{ horizon.name }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>Product</th>
+                        <th>Horizon</th>
+                    </tr>
+                        {% for horizon in horizon.hasManyProducts %}
+                            {% for product in horizon.productLinks %}
+                                <tr>
+                                    <td>
+                                        {{ product.name }}
+                                    </td>
+                                    {% if loop.index == 1 %}
+                                        <td rowspan="{{ horizon.productLinks.count() }}">
+                                            {{ horizon.name }}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+            <div>
+                <table class="special">
+                    <tr>
+                        <th>No Product</th>
+                    </tr>
+                    {% for horizon in horizon.hasNoProducts %}
+                    <tr>
+                        <td>{{ horizon.name }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" class="empty">Empty</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

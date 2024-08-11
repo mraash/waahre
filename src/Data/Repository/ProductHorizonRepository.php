@@ -21,14 +21,6 @@ class ProductHorizonRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function createEntity(string $code, string $name): ProductHorizon
-    {
-        return (new ProductHorizon())
-            ->setCode($code)
-            ->setName($name)
-        ;
-    }
-
     /**
      * @param ProductHorizon[] $horizonProducts
      */
@@ -48,36 +40,15 @@ class ProductHorizonRepository extends ServiceEntityRepository
         }
     }
 
-    public function findOneByCode(string $code): ProductHorizon
-    {
-        // TODO: read
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT ph, pl
-            FROM App\Data\Entity\ProductHorizon ph
-            INNER JOIN ph.localTwin pl
-            WHERE ph.code = :code'
-        )->setParameter('code', $code);
-
-        return $query->getOneOrNullResult();
-    }
-
     public function findOneByName(string $name): ProductHorizon
     {
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT ph, pl
-            FROM App\Data\Entity\ProductHorizon ph
-            INNER JOIN ph.localTwin pl
-            WHERE ph.name = :name'
-        )->setParameter('name', $name);
-
-        return $query->getOneOrNullResult();
-
-        // return $this->createQueryBuilder('p')
-        //     ->andWhere('p.name = :val')
-        //     ->setParameter('val', $name)
-        //     ->getQuery()
-        //     ->getOneOrNullResult()
-        // ;
+        return $this->createQueryBuilder('h')
+            // ->join('\App\Data\Entity\Product', 'p')
+            ->andWhere('h.name = :val')
+            ->setParameter('val', $name)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     //    /**

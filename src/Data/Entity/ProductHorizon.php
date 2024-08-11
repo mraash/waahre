@@ -3,6 +3,8 @@
 namespace App\Data\Entity;
 
 use App\Data\Repository\ProductHorizonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductHorizonRepository::class)]
@@ -19,8 +21,16 @@ class ProductHorizon
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(mappedBy: 'horizonTwin', cascade: ['persist', 'remove'])]
-    private ?Product $localTwin = null;
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'horizonLinks')]
+    private Collection $productLinks;
+
+    public function __construct()
+    {
+        $this->productLinks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,19 +61,29 @@ class ProductHorizon
         return $this;
     }
 
-    public function getLocalTwin(): ?Product
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProductLinks(): Collection
     {
-        return $this->localTwin;
+        return $this->productLinks;
     }
 
-    public function setLocalTwin(Product $localTwin): static
+    public function addProductLink(Product $productLink): static
     {
-        // set the owning side of the relation if necessary
-        if ($localTwin->getHorizonTwin() !== $this) {
-            $localTwin->setHorizonTwin($this);
+        if (!$this->productLinks->contains($productLink)) {
+            $this->productLinks->add($productLink);
+            $productLink->addHorizonLink($this);
         }
 
-        $this->localTwin = $localTwin;
+        return $this;
+    }
+
+    public function removeProductLink(Product $productLink): static
+    {
+        if ($this->productLinks->removeElement($productLink)) {
+            $productLink->removeHorizonLink($this);
+        }
 
         return $this;
     }

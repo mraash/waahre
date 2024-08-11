@@ -2,6 +2,8 @@
 
 namespace App\Data\Entity;
 
+use App\Data\Entity\ProductFRestaurant;
+use App\Data\Entity\ProductHorizon;
 use App\Data\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,22 +23,25 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $orderName = null;
-
-    #[ORM\OneToOne(inversedBy: 'localTwin', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?ProductHorizon $horizonTwin = null;
 
     /**
      * @var Collection<int, ProductFRestaurant>
      */
-    #[ORM\OneToMany(targetEntity: ProductFRestaurant::class, mappedBy: 'localTwin')]
-    private Collection $fRestaurantTwin;
+    #[ORM\ManyToMany(targetEntity: ProductFRestaurant::class, inversedBy: 'productLinks')]
+    private Collection $frestaurantLinks;
+
+    /**
+     * @var Collection<int, ProductHorizon>
+     */
+    #[ORM\ManyToMany(targetEntity: ProductHorizon::class, inversedBy: 'productLinks')]
+    private Collection $horizonLinks;
 
     public function __construct()
     {
-        $this->fRestaurantTwin = new ArrayCollection();
+        $this->frestaurantLinks = new ArrayCollection();
+        $this->horizonLinks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,10 +75,10 @@ class Product
 
     public function getOrderName(): ?string
     {
-        return $this->orderName;
+        return $this->orderName ?? $this->name;
     }
 
-    public function setOrderName(string $orderName): static
+    public function setOrderName(?string $orderName): static
     {
         $this->orderName = $orderName;
 
@@ -82,14 +87,8 @@ class Product
 
     public function getHorizonTwin(): ?ProductHorizon
     {
-        return $this->horizonTwin;
-    }
-
-    public function setHorizonTwin(ProductHorizon $horizonTwin): static
-    {
-        $this->horizonTwin = $horizonTwin;
-
-        return $this;
+        // TODO: throw new \RuntimeException('Replace method');
+        return $this->getHorizonLinks()->first();
     }
 
     /**
@@ -97,27 +96,54 @@ class Product
      */
     public function getFRestaurantTwins(): Collection
     {
-        return $this->fRestaurantTwin;
+        // TODO: throw new \RuntimeException('Replace method');
+        return $this->getFrestaurantLinks();
     }
 
-    public function addFRestaurantTwin(ProductFRestaurant $fRestaurantTwin): static
+    /**
+     * @return Collection<int, ProductHorizon>
+     */
+    public function getHorizonLinks(): Collection
     {
-        if (!$this->fRestaurantTwin->contains($fRestaurantTwin)) {
-            $this->fRestaurantTwin->add($fRestaurantTwin);
-            $fRestaurantTwin->setLocalTwin($this);
+        return $this->horizonLinks;
+    }
+
+    public function addHorizonLink(ProductHorizon $horizonLink): static
+    {
+        if (!$this->horizonLinks->contains($horizonLink)) {
+            $this->horizonLinks->add($horizonLink);
         }
 
         return $this;
     }
 
-    public function removeFRestaurantTwin(ProductFRestaurant $fRestaurantTwin): static
+    public function removeHorizonLink(ProductHorizon $horizonLink): static
     {
-        if ($this->fRestaurantTwin->removeElement($fRestaurantTwin)) {
-            // set the owning side to null (unless already changed)
-            if ($fRestaurantTwin->getLocalTwin() === $this) {
-                $fRestaurantTwin->setLocalTwin(null);
-            }
+        $this->horizonLinks->removeElement($horizonLink);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductFRestaurant>
+     */
+    public function getFrestaurantLinks(): Collection
+    {
+        return $this->frestaurantLinks;
+    }
+
+    public function addFrestaurantLink(ProductFRestaurant $frestaurantLink): static
+    {
+        if (!$this->frestaurantLinks->contains($frestaurantLink)) {
+            $this->frestaurantLinks->add($frestaurantLink);
         }
+
+        return $this;
+    }
+
+    public function removeFrestaurantLink(ProductFRestaurant $frestaurantLink): static
+    {
+        $this->frestaurantLinks->removeElement($frestaurantLink);
 
         return $this;
     }

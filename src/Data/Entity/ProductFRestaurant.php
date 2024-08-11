@@ -3,6 +3,8 @@
 namespace App\Data\Entity;
 
 use App\Data\Repository\ProductFRestaurantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductFRestaurantRepository::class)]
@@ -19,9 +21,16 @@ class ProductFRestaurant
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'fRestaurantTwin')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Product $localTwin = null;
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'frestaurantLinks')]
+    private Collection $productLinks;
+
+    public function __construct()
+    {
+        $this->productLinks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -52,14 +61,29 @@ class ProductFRestaurant
         return $this;
     }
 
-    public function getLocalTwin(): ?Product
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProductLinks(): Collection
     {
-        return $this->localTwin;
+        return $this->productLinks;
     }
 
-    public function setLocalTwin(?Product $localTwin): static
+    public function addProductLink(Product $productLink): static
     {
-        $this->localTwin = $localTwin;
+        if (!$this->productLinks->contains($productLink)) {
+            $this->productLinks->add($productLink);
+            $productLink->addFrestaurantLink($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductLink(Product $productLink): static
+    {
+        if ($this->productLinks->removeElement($productLink)) {
+            $productLink->removeFrestaurantLink($this);
+        }
 
         return $this;
     }

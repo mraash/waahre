@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\ProductFRestaurant;
 
+use App\Data\Creation\ProductFRestaurantCreation;
 use App\Data\Repository\ProductFRestaurantRepository;
 use App\Data\Repository\ProductRepository;
 use App\Domain\Feature\ProductDocument\FRestaurantProducts\FRestaurantProducts;
@@ -28,6 +29,7 @@ class ProductFRestaurantSeeder
             $code = $item->code;
             $name = $item->name;
 
+            // TODO: ...
             // if ($item->name === 'Soda dzeramā') {
             //     $name = " $name";
             // }
@@ -36,7 +38,7 @@ class ProductFRestaurantSeeder
             //     $code = " $code";
             // }
 
-            $fRestaurantProducts[] = $this->repository->createEntity($code, $name);
+            $fRestaurantProducts[] = ProductFRestaurantCreation::create($code, $name);
         }
 
         $this->repository->saveList($fRestaurantProducts);
@@ -87,28 +89,28 @@ class ProductFRestaurantSeeder
         ];
 
         $strictTwins = [
-            'Makaroni  Lazanja  un Kus kus' => $this->productRepository->findOneByHorizonName(
+            'Makaroni  Lazanja  un Kus kus' => $this->productRepository->findFirstByHorizonName(
                 'Makaroni  Lazanja, spageti  un Kus kus'
             ),
-            'Rozīnes' => $this->productRepository->findOneByHorizonName(
+            'Rozīnes' => $this->productRepository->findFirstByHorizonName(
                 'Rozīnes'
             ),
-            'Svagais siers bez piedevām' => $this->productRepository->findOneByHorizonName(
+            'Svagais siers bez piedevām' => $this->productRepository->findFirstByHorizonName(
                 'Krēmsiers BALTAIS  (klasiskais) bez piedēvam'
             ),
-            'Cepamais pulveris,  SODA' => $this->productRepository->findOneByHorizonName(
+            'Cepamais pulveris,  SODA' => $this->productRepository->findFirstByHorizonName(
                 'Soda dzeramā'
             ),
-            'Pētersīļi SALDĒTI' => $this->productRepository->findOneByHorizonName(
+            'Pētersīļi SALDĒTI' => $this->productRepository->findFirstByHorizonName(
                 'Pētersili svaigi'
             ),
-            'Kāposti svaigie' => $this->productRepository->findOneByHorizonName(
+            'Kāposti svaigie' => $this->productRepository->findFirstByHorizonName(
                 'Kāposti jaunie'
             ),
         ];
 
         foreach ($frestaurantProducts as $frestaurant) {
-            if ($frestaurant->getLocalTwin() !== null) {
+            if ($frestaurant->getProductLinks()->count() > 0) {
                 continue;
             }
 
@@ -125,13 +127,9 @@ class ProductFRestaurantSeeder
             ));
 
             if (!$matchedProduct) {
-                if (!isset($strictTwins[$frestaurant->getName()])) {
-                    $debugNone[] = $frestaurant->getCode() . ' ----- ' . $frestaurant->getName();
+                $debugNone[] = $frestaurant->getCode() . ' ----- ' . $frestaurant->getName();
 
-                    continue;
-                }
-
-                $matchedProduct = $strictTwins[$frestaurant->getName()];
+                continue;
             }
 
             $frestaurantCode = $frestaurant->getCode();
@@ -150,7 +148,7 @@ class ProductFRestaurantSeeder
             $areCodesEqual = $hroizonCode === $frestaurantCode;
 
             if ($areNamesEqual || $areSpecialProducts || $areSpecialSpecialProducts) {
-                $frestaurant->setLocalTwin($matchedProduct);
+                $frestaurant->addProductLink($matchedProduct);
                 $this->repository->save($frestaurant);
             } elseif ($areCodesEqual) {
                 // // Write unprocessed results to debuging variables

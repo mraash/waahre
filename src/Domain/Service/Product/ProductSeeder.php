@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Service\Product;
 
+use App\Data\Creation\ProductCreation;
 use App\Data\Repository\ProductHorizonRepository;
 use App\Data\Repository\ProductRepository;
 
@@ -21,8 +22,8 @@ class ProductSeeder
         $products = [];
 
         foreach ($horizonProducts as $horizonProduct) {
-            $product = $this->repository->createEntity($horizonProduct->getName());
-            $product->setHorizonTwin($horizonProduct);
+            $product = ProductCreation::create($horizonProduct->getName());
+            $product->addHorizonLink($horizonProduct);
 
             $products[] = $product;
         }
